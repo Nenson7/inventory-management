@@ -6,6 +6,7 @@
         <th>Price (NPR)</th>
         <th>Stock</th>
         <th>Status</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -21,11 +22,16 @@
           <div class="badge badge-success">Available</div>
 
           {{else if gt .Stock 0}}
-          <div class="badge badge-warning">Limited Stock: {{.Stock}} left</div>
+          <div class="badge badge-warning">{{.Stock}} left</div>
 
           {{else}}
           <div class="badge badge-error">Out of Stock</div>
           {{end}}
+        </td>
+        <td>
+          <button class="btn btn-ghost btn-xs text-xs text-error">
+            Delete
+          </button>
         </td>
       </tr>
       {{end}}

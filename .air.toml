@@ -7,10 +7,10 @@ tmp_dir = "tmp"
 
 [build]
   args_bin = []
-  bin = "./tmp/main"
-  cmd = "go build -o ./tmp/main ."
+  bin = "tmp/main.exe" 
+  cmd = "go build -o ./tmp/main.exe ."
   delay = 1000
-  entrypoint = ["./tmp/main"]
+  entrypoint = ["./tmp/main.exe"]
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]
   exclude_file = []
   exclude_regex = ["_test.go"]
@@ -33,7 +33,6 @@ tmp_dir = "tmp"
   stop_on_error = false
 
 [color]
-  app = ""
   build = "yellow"
   main = "magenta"
   runner = "green"
@@ -46,12 +45,6 @@ tmp_dir = "tmp"
 
 [misc]
   clean_on_exit = false
-
-[proxy]
-  app_port = 0
-  app_start_timeout = 0
-  enabled = false
-  proxy_port = 0
 
 [screen]
   clear_on_rebuild = true

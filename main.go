@@ -30,10 +30,7 @@ func main() {
 		tmpl.Execute(w, data)
 	})
 
-	http.HandleFunc("/add-product", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodPost {
-			return
-		}
+	http.HandleFunc("POST /add-product", func(w http.ResponseWriter, r *http.Request) {
 
 		price, _ := strconv.ParseFloat(r.FormValue("price"), 64)
 		stock, _ := strconv.Atoi(r.FormValue("stock"))

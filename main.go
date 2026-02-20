@@ -15,6 +15,11 @@ type PageData struct {
 }
 
 var db *gorm.DB
+var templates *template.Template
+
+func init() {
+	templates = template.Must(template.ParseGlob("templates/*.html"))
+}
 
 func main() {
 	db = InitDB()
@@ -23,15 +28,13 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static", fs))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		tmpl := template.Must(template.ParseFiles("templates/index.html"))
 		data := PageData{
 			Title: "Go + HTMX",
 		}
-		tmpl.Execute(w, data)
+		templates.ExecuteTemplate(w, "index.html", data)
 	})
 
 	http.HandleFunc("POST /add-product", func(w http.ResponseWriter, r *http.Request) {
-
 		price, _ := strconv.ParseFloat(r.FormValue("price"), 64)
 		stock, _ := strconv.Atoi(r.FormValue("stock"))
 
@@ -58,8 +61,20 @@ func main() {
 
 		db.Find(&products)
 
-		tmpl := template.Must(template.ParseFiles("templates/products-lists.html"))
-		tmpl.Execute(w, products)
+		templates.ExecuteTemplate(w, "products-lists.html", products)
+	})
+
+	http.HandleFunc("DELETE /delete-product/{id}", func(w http.ResponseWriter, r *http.Request) {
+		id := r.PathValue("id")
+
+		result := db.Delete(&Products{}, id)
+
+		if result.Error != nil {
+			http.Error(w, "Could not delete item", http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
 	})
 
 	fmt.Println("Server running at localhost:8080")

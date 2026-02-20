@@ -1,102 +1,58 @@
+{{define "index"}}
 <!doctype html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{.Title}}</title>
-  <script src="/static/htmx.js"></script>
-  <script src="/static/tailwind.js"></script>
-  <link rel="stylesheet" href="/static/daisyui.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{.Title}}</title>
+    <script src="/static/htmx.js"></script>
+    <script src="/static/tailwind.js"></script>
+    <link rel="stylesheet" href="/static/daisyui.css">
 </head>
 
-<body class="">
-
-  <div class="navbar bg-base-100 shadow-sm">
-    <div class="flex-1">
-      <a class="btn btn-ghost text-xl">Inventory</a>
-    </div>
-    <div class="flex-none">
-      <ul class="menu menu-horizontal px-2">
-        <li><a>Home</a></li>
-        <li>
-          <details>
-            <summary>Parent</summary>
-            <ul class="bg-base-100 rounded-t-none p-2">
-              <li><a>Link 1</a></li>
-              <li><a>Link 2</a></li>
+<body>
+    <div class="navbar bg-base-100 shadow-sm border-b border-neutral-content mb-4 px-12">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl">Inventory</a>
+        </div>
+        <div class="flex-none">
+            <ul class="menu menu-horizontal px-2">
+                <li>
+                    <button 
+                        hx-get="/add-product-form" 
+                        hx-target="#modal-container" 
+                        class="btn btn-ghost btn-sm btn-secondary">
+                        Add Product
+                    </button>
+                </li>
             </ul>
-          </details>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="max-w-6xl mx-auto min-h-screen bg-base-200 p-4">
-    <header class="mb-10 text-center">
-      <h1 class="text-4xl font-black text-primary">Inventory Pro</h1>
-      <p class="text-base-content/60">Manage your products in NPR</p>
-    </header>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-      <div class="lg:col-span-1">
-        <div class="card bg-base-100 shadow-xl sticky top-10">
-          <div class="card-body">
-            <h2 class="card-title text-xl font-bold mb-4">Add New Product</h2>
-
-            <form hx-post="/add-product" hx-target="#response-area" hx-on::after-request="this.reset()"
-              hx-swap="innerHTML">
-
-              <div class="form-control w-full">
-                <label class="label"><span class="label-text font-semibold">Product Name</span></label>
-                <input type="text" name="name" placeholder="e.g. Nepali Tea"
-                  class="input input-bordered w-full focus:input-primary" required />
-              </div>
-
-              <div class="form-control w-full mt-2">
-                <label class="label"><span class="label-text font-semibold">Price (NPR)</span></label>
-                <input type="number" name="price" step="0.01" placeholder="0.00"
-                  class="input input-bordered w-full focus:input-primary" required />
-              </div>
-
-              <div class="form-control w-full mt-2">
-                <label class="label"><span class="label-text font-semibold">Stock Quantity</span></label>
-                <input type="number" name="stock" placeholder="10"
-                  class="input input-bordered w-full focus:input-primary" required />
-              </div>
-
-              <div class="card-actions justify-end mt-6">
-                <button type="submit" class="btn btn-primary w-full shadow-lg">
-                  Save Product
-                </button>
-              </div>
-            </form>
-
-            <div id="response-area"></div>
-          </div>
         </div>
-      </div>
+    </div>
 
-      <div class="lg:col-span-2">
-        <div class="bg-base-100 rounded-2xl shadow-xl overflow-hidden">
-          <div class="p-6 border-b border-base-200 flex justify-between items-center">
-            <h2 class="text-xl font-bold">Current Inventory</h2>
-            <!-- <span class="badge badge-ghost">Live Updates</span> -->
-          </div>
+    <main>
+        <div class="max-w-7xl mx-auto min-h-screen p-4">
+            <label for="search-result" class="label mb-2 font-bold text-primary">Search</label>
+            <input type="text" placeholder="Type here to Search" class="input w-full mb-4" id="search-result"/>
 
-          <div id="product-table-container" hx-get="/get-products" hx-trigger="load, productAdded from:body"
-            hx-target="#product-table-container">
-            <div class="flex justify-center p-10">
-              <span class="loading loading-spinner loading-lg text-primary"></span>
+            <div class="bg-base-100 rounded-md border border-neutral-content overflow-hidden shadow-sm">
+                <div class="p-6 border-b border-base-200 flex justify-between items-center">
+                    <h2 class="text-xl font-bold">Current Inventory</h2>
+                    <!-- <span class="badge badge-ghost">Live Updates</span> -->
+                </div>
+
+                <div id="product-table-container" hx-get="/get-products" hx-trigger="load, productAdded from:body"
+                    hx-target="#product-table-container">
+                    <div class="flex justify-center p-10">
+                        <span class="loading loading-spinner loading-lg text-primary"></span>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </main>
 
-    </div>
-  </div>
-
+    <div id="modal-container"></div>
 </body>
 
 </html>
+{{end}}

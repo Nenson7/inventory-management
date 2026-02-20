@@ -1,57 +1,56 @@
+{{define "products-lists"}}
+
 {{if .}}
 <div class="overflow-x-auto w-full">
-  <table class="table w-full bg-base-100 shadow-xl">
-    <thead>
-      <tr>
-        <th>Product Name</th>
-        <th>Price (NPR)</th>
-        <th>Stock</th>
-        <th>Status</th>
-        <th>Actions</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{range .}}
-      <tr class="hover:bg-base-300 cursor-pointer">
-        <td>
-          <div class="font-bold">{{.Name}}</div>
-        </td>
-        <td>Rs. {{.Price}}</td>
-        <td>{{.Stock}}</td>
-        <td>
-          {{if gt .Stock 9}}
-          <div class="badge badge-success">Available</div>
-
-          {{else if gt .Stock 0}}
-          <div class="badge badge-warning">{{.Stock}} left</div>
-          <div class="badge badge-warning">{{.Stock}} left</div>
-
-          {{else}}
-          <div class="badge badge-error">Out of Stock</div>
-          {{end}}
-        </td>
-        <td>
-          <button hx-delete="/delete-product/{{.ID}}" hx-target="closest tr" hx-swap="outerHTML"
-            class="btn btn-ghost btn-sm text-error">
-            Delete
-          </button>
-        </td>
-      </tr>
-      {{end}}
-    </tbody>
-  </table>
+    <table class="table bg-base-100">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price (NPR)</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .}}
+            <tr class="hover:bg-base-300 cursor-pointer">
+                <td>
+                    <div class="font-bold">{{.Name}}</div>
+                </td>
+                <td>Rs. {{.Price}}</td>
+                <td>{{.Stock}}</td>
+                <td>
+                    {{if gt .Stock 9}}
+                    <div class="badge badge-success">Available</div>
+                    {{else if gt .Stock 0}}
+                    <div class="badge badge-warning">{{.Stock}} left</div>
+                    {{else}}
+                    <div class="badge badge-error">Out of Stock</div>
+                    {{end}}
+                </td>
+                <td>
+                    <button hx-delete="/delete-product/{{.ID}}" hx-target="closest tr" hx-swap="outerHTML"
+                        class="btn btn-ghost btn-sm text-error">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
 </div>
 {{else}}
 <div class="hero bg-base-200 rounded-box p-10">
-  <div class="hero-content text-center">
-    <div class="max-w-md">
-      <h1 class="text-2xl font-bold">No products found</h1>
-      <p class="py-6 text-base-content/60">
-        It looks like your inventory is empty. Start by adding a new product!
-      </p>
-      <!-- <button class="btn btn-primary">Add First Product</button> -->
+    <div class="hero-content text-center">
+        <div class="max-w-md">
+            <h1 class="text-2xl font-bold text-warning">No products found</h1>
+            <p class="py-6 text-base-content/40">
+                It looks like your inventory is empty. Start by adding a new product!
+            </p>
+            <!-- <button class="btn btn-primary">Add First Product</button> -->
+        </div>
     </div>
-  </div>
 </div>
+{{end}}
 {{end}}

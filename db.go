@@ -13,7 +13,7 @@ type Products struct {
 }
 
 func InitDB() *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("local.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("tmp/db.sqlite3"), &gorm.Config{})
 
 	// For later postgre / supabase
 	// conn := "host=localhost user=gorm password=gorm dbname=gorm port=5432 sslmode=disable"

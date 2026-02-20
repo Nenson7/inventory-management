@@ -1,0 +1,42 @@
+{{define "add-product" }}
+<div id="modal-backdrop" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+    <div class="card bg-base-100 w-full max-w-md border border-neutral-content shadow-2xl mx-4">
+        <div class="card-body relative">
+
+            <button onclick="document.getElementById('modal-backdrop').remove()"
+                class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+
+            <h2 class="card-title text-xl font-bold mb-4">Add New Product</h2>
+
+            <form hx-post="/add-product" hx-target="#response-area"
+                hx-on::after-request="if(event.detail.successful) this.reset()" hx-swap="innerHTML">
+
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text font-semibold">Product Name</span></label>
+                    <input type="text" name="name" class="input input-bordered w-full" required placeholder="Enter Product Name"/>
+                </div>
+                <div class="form-control w-full mt-2">
+                    <label class="label"><span class="label-text font-semibold">Price (NPR)</span></label>
+
+                    <input type="number" name="price" step="0.01" placeholder="0.00"
+                        class="input input-bordered w-full focus:input-primary" required />
+                </div>
+                <div class="form-control w-full mt-2">
+                    <label class="label"><span class="label-text font-semibold">Stock Quantity</span></label>
+
+                    <input type="number" name="stock" placeholder="10"
+                        class="input input-bordered w-full focus:input-primary" required />
+
+                </div>
+                <div class="card-actions justify-end mt-6 flex-col gap-2">
+                    <button type="submit" class="btn btn-primary w-full shadow-lg">Save Product</button>
+                    <button type="button" onclick="document.getElementById('modal-backdrop').remove()"
+                        class="btn btn-ghost w-full">Cancel</button>
+                </div>
+            </form>
+
+            <div id="response-area"></div>
+        </div>
+    </div>
+</div>
+{{end}}

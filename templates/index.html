@@ -8,17 +8,6 @@
   <script src="/static/htmx.js"></script>
   <script src="/static/tailwind.js"></script>
   <link rel="stylesheet" href="/static/daisyui.css">
-
-  <script>
-    // when the air go is rebuilding thing just show this
-    document.body.addEventListener('htmx:sendError', function(evt) {
-    const responseArea = document.getElementById('response-area');
-    responseArea.innerHTML = `
-        <div class="alert alert-error shadow-lg mt-4">
-            <span>Server is rebuilding... please wait.</span>
-        </div>`;
-});
-  </script>
 </head>
 
 <body class="p-4 md:p-10 bg-base-200 min-h-screen">
@@ -76,7 +65,7 @@
             <span class="badge badge-ghost">Live Updates</span>
           </div>
 
-          <div id="product-table-container" hx-get="/get-products" hx-trigger="load, productAdded from:body">
+          <div id="product-table-container" hx-target="#product-table-container" hx-get="/get-products" hx-trigger="load, productAdded from:body">
             <div class="flex justify-center p-10">
               <span class="loading loading-spinner loading-lg text-primary"></span>
             </div>
